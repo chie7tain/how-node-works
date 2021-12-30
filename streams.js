@@ -8,18 +8,22 @@ server.on("request", (req, res) => {
   //   res.end(data);
   // });
   // second solution
+  // const readable = fs.createReadStream("test-file.txt");
+  // readable.on("data", (chunk) => {
+  //   res.write(chunk);
+  // });
+  // res.on("end", () => {
+  //   res.end("end of file");
+  // });
+  // readable.on("error", (err) => {
+  //   console.log(err);
+  //   res.statusCode = 500;
+  //   res.end("error file not found");
+  // });
+  // third solution
+
   const readable = fs.createReadStream("test-file.txt");
-  readable.on("data", (chunk) => {
-    res.write(chunk);
-  });
-  res.on("end", () => {
-    res.end("end of file");
-  });
-  readable.on("error", (err) => {
-    console.log(err);
-    res.statusCode = 500;
-    res.end("error file not found");
-  });
+  readable.pipe(res);
 });
 
 server.listen(3000, "127.0.0.1", () => {
